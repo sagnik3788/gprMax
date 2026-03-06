@@ -1,0 +1,43 @@
+name: Build and Verify
+
+on:
+  push:
+    branches: [ feature/cicd-automation ]
+  # pull_request:
+  #   branches: [ devel ]
+
+jobs:
+  build-cpu:
+    name: CPU Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            script: .ci/cpu/build_cpu.sh
+            shell: bash
+          - os: macos-latest
+            script: .ci/cpu/build_cpu.sh
+            shell: bash
+          - os: windows-latest
+            script: .ci\cpu\built_win.bat
+            shell: cmd
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Make Script Executable
+        if: matrix.os != 'windows-latest'
+        run: chmod +x ${{ matrix.script }}
+
+      - name: Run Build and Verify
+        run: ${{ matrix.script }}
+        shell: ${{ matrix.shell }}
