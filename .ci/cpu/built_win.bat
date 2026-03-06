@@ -7,7 +7,8 @@ cd /d "%REPO_ROOT%"
 :: choco install msmpi
 
 python -m pip install --upgrade pip
-python -m pip install numpy cython jinja2 setuptools wheel mpi4py
+python -m pip install -r requirements.txt
+python -m pip install cython setuptools wheel
 
 python setup.py build_ext --inplace
 

@@ -24,7 +24,8 @@ case "${OS}" in
 esac
 
 python3 -m pip install --upgrade pip
-python3 -m pip install numpy cython jinja2 setuptools wheel mpi4py
+python3 -m pip install -r requirements.txt
+python3 -m pip install cython setuptools wheel
 
 python3 setup.py build_ext --inplace
 
