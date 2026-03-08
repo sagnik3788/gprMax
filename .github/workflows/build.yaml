@@ -23,6 +23,9 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
+      - name: Setup MPI
+        uses: mpi4py/setup-mpi@v1
+
       - name: Build (Linux/macOS)
         if: runner.os != 'Windows'
         run: |
