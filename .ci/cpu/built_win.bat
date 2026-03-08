@@ -14,5 +14,7 @@ python -c "from gprMax.cython.fields_updates_normal import update_magnetic"
 if %ERRORLEVEL% NEQ 0 exit /b 1
 
 :: Verify (MPI)
+:: to avoid file lockling
+set HDF5_USE_FILE_LOCKING=FALSE
 mpiexec -n 2 python -m gprMax examples/cylinder_Ascan_2D.in
 if %ERRORLEVEL% NEQ 0 exit /b 1
