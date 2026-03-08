@@ -1,0 +1,28 @@
+name: CUDA Test
+
+on:
+  push:
+    branches: [ feature/cicd-automation ]
+    paths:
+      - 'gprMax/cuda_opencl/**'
+      - '.ci/cuda/**'
+      - '.github/workflows/cuda.yaml'
+  workflow_dispatch:  # Manual 
+
+jobs:
+  test-cuda-gpu:
+    name: CUDA GPU Test (Kaggle)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run GPU tests on Kaggle
+        uses: Frederisk/kaggle-action@v1.0.0
+        with:
+          username: ${{ secrets.KAGGLE_USERNAME }}
+          key: ${{ secrets.KAGGLE_TOKEN }}
+          title: gprmax-cuda-test
+          code_file: .ci/cuda/kaggle_gpu_test.py
+          enable_gpu: enable
+          enable_internet: enable

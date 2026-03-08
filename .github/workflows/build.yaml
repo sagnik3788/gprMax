@@ -1,10 +1,9 @@
-name: Build and Verify
+name: CPU Build 
 
 on:
   push:
     branches: [ feature/cicd-automation ]
-  # pull_request:
-  #   branches: [ devel ]
+  workflow_dispatch:  # manual run
 
 jobs:
   build-cpu:
@@ -14,7 +13,6 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
