@@ -23,6 +23,6 @@ jobs:
           username: ${{ secrets.KAGGLE_USERNAME }}
           key: ${{ secrets.KAGGLE_TOKEN }}
           title: gprmax-cuda-test
-          code_file: .ci/cuda/kaggle_gpu_test.py
+          code_file: .ci/cuda/kaggle_gpu.py
           enable_gpu: enable
           enable_internet: enable
