@@ -20,4 +20,6 @@ python3 -c "from gprMax.cython.fields_updates_normal import update_magnetic"
 python3 -c "from gprMax.cython.pml_build import pml_average_er_mr"
 
 # Verify (MPI)
+# to avoid file lock
+export HDF5_USE_FILE_LOCKING=FALSE
 mpirun -n 2 python3 -m gprMax examples/cylinder_Ascan_2D.in
