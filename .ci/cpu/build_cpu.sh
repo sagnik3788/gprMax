@@ -28,5 +28,5 @@ mpirun -n 2 python3 -m gprMax examples/cylinder_Ascan_2D.in
 
 # verify opencl
 if [ "$(uname -s)" == "Linux" ]; then
-    python3 -m gprMax examples/cylinder_Ascan_2D.in -gpu -backend opencl
+    python3 -m gprMax examples/cylinder_Ascan_2D.in -opencl
 fi
