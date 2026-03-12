@@ -1,0 +1,57 @@
+name: "Security & Static Analysis"
+
+on:
+  push:
+    branches: [master, devel]
+  # pull_request:
+  #   branches: [master, devel]
+  # schedule:
+  #   - cron: "30 1 * * 1" # If required
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ["python", "cpp"]
+        # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python']
+        # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Build Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgomp1 libopenmpi-dev ocl-icd-opencl-dev
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install cython numpy
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          # For custom query we can add here or add a config, query here will override config
+          queries: security-and-quality
+
+      # Manually build so CodeQL can trace the compilation
+      - name: Build C Extensions
+        run: |
+          python setup.py build_ext --inplace
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
