@@ -50,8 +50,19 @@ jobs:
 
       # Manually build so CodeQL can trace the compilation
       - name: Build C Extensions
+        if: matrix.language == 'cpp'
         run: |
           python setup.py build_ext --inplace
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
+        with:
+          category: "/language:${{matrix.language}}"
+          output: sarif-results
+
+      # TODO: remove this, it's temporary for fork branch, as i can't access code scanning
+      - name: Upload SARIF Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sarif-results-${{ matrix.language }}
+          path: sarif-results
