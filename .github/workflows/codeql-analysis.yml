@@ -42,7 +42,7 @@ jobs:
           python -m pip install cython numpy
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: ${{ matrix.language }}
           # For custom query we can add here or add a config, query here will override config
@@ -54,4 +54,4 @@ jobs:
           python setup.py build_ext --inplace
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
