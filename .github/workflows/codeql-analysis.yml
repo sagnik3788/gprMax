@@ -2,7 +2,7 @@ name: "Security & Static Analysis"
 
 on:
   push:
-    branches: [master, devel]
+    branches: [master, feature/cicd-automation]
   # pull_request:
   #   branches: [master, devel]
   # schedule:
